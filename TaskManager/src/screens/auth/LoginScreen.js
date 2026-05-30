@@ -7,9 +7,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
+  Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, clearError } from '../../store/slices/authSlice';
@@ -55,7 +56,14 @@ const LoginScreen = ({ navigation }) => {
 
     dispatch(login({ email: email.trim() })).then((result) => {
       if (login.fulfilled.match(result)) {
-        navigation.navigate('OTP', { email: email.trim() });
+        const otp = result.payload?.otp;
+        if (otp) {
+          Alert.alert('Your OTP', `${otp}`, [
+            { text: 'OK', onPress: () => navigation.navigate('OTP', { email: email.trim() }) },
+          ]);
+        } else {
+          navigation.navigate('OTP', { email: email.trim() });
+        }
       }
     });
   };

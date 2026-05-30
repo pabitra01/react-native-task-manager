@@ -18,22 +18,22 @@ const client = axios.create({
 
 // Request interceptor - attach Authorization header
 client.interceptors.request.use(
-  async (config) => {
+  async config => {
     const token = await getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   },
 );
 
 // Response interceptor - handle 401
 client.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     if (error.response && error.response.status === 401) {
       await removeToken();
     }

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import store from './src/store';
 import { loadToken } from './src/store/slices/authSlice';
 import { loadTheme } from './src/store/slices/themeSlice';
@@ -20,6 +21,7 @@ const AppContent = () => {
       <StatusBar
         barStyle={themeMode === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={themeMode === 'dark' ? '#0F172A' : '#F8FAFC'}
+        translucent={false}
       />
       <AppNavigator />
     </>
@@ -28,9 +30,11 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <AppContent />
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <AppContent />
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 

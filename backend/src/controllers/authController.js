@@ -50,6 +50,7 @@ const signup = async (req, res, next) => {
         message: 'User registered successfully. Please verify your OTP.',
         userId: user.id,
         email: user.email,
+        otp, // For demo — remove in production
       },
     });
   } catch (error) {
@@ -100,6 +101,7 @@ const login = async (req, res, next) => {
       data: {
         message: 'OTP sent successfully. Please verify to login.',
         email: user.email,
+        otp, // For demo — remove in production
       },
     });
   } catch (error) {
